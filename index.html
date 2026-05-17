@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#f8f4ff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ayşenaz">
+<title>Ayşenaz</title>
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#f8f4ff;
+  --card:#ffffff;
+  --card2:#fdf9ff;
+  --lav:#c4b5fd;--lavl:#ede9fe;--lavd:#7c3aed;
+  --pink:#f9a8d4;--pinkl:#fce7f3;--pinkd:#be185d;
+  --mint:#6ee7b7;--mintl:#d1fae5;--mintd:#065f46;
+  --sky:#93c5fd;--skyl:#dbeafe;--skyd:#1d4ed8;
+  --peach:#fdba74;--peachl:#ffedd5;--peachd:#c2410c;
+  --sage:#86efac;--sagel:#dcfce7;--saged:#15803d;
+  --border:rgba(167,139,250,0.2);
+  --border2:rgba(167,139,250,0.35);
+  --tx:#1e1b4b;--tx2:#4c1d95;--tx3:#7c3aed;--tx4:#a78bfa;
+  --shadow:0 2px 16px rgba(124,58,237,0.08);
+  --shadow2:0 8px 32px rgba(124,58,237,0.14);
+  --r:18px;--rs:12px;--rl:24px;
+  --serif:'Playfair Display',serif;
+  --sans:'Nunito',sans-serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font-family:var(--sans);font-size:14px}
+
+/* Soft gradient bg */
+body::before{content:'';position:fixed;inset:0;
+  background:linear-gradient(135deg,rgba(196,181,253,0.12) 0%,rgba(249,168,212,0.08) 50%,rgba(110,231,183,0.08) 100%);
+  pointer-events:none;z-index:0}
+
+/* ═══ SPLASH ═══ */
+#splash{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;transition:opacity .8s ease}
+#splash.out{opacity:0;pointer-events:none}
+.sp-wrap{background:var(--card);border-radius:28px;padding:32px 36px;text-align:center;box-shadow:var(--shadow2);border:1.5px solid var(--border2);max-width:290px;position:relative}
+/* floral corners */
+.sp-wrap::before{content:'🌸';position:absolute;top:-12px;left:16px;font-size:24px}
+.sp-wrap::after{content:'🌿';position:absolute;bottom:-10px;right:16px;font-size:20px}
+.sp-flower{font-size:60px;display:block;animation:bloom 2s ease-in-out infinite}
+@keyframes bloom{0%,100%{transform:scale(1) rotate(-5deg)}50%{transform:scale(1.1) rotate(5deg)}}
+.sp-name{font-family:var(--serif);font-size:36px;color:var(--tx);font-style:italic;margin-top:12px}
+.sp-hello{font-size:15px;color:var(--tx4);margin-top:4px;font-weight:600}
+.sp-cd{font-size:13px;color:var(--tx3);margin-top:8px;font-weight:700;background:var(--lavl);padding:4px 14px;border-radius:20px;display:inline-block}
+
+/* ═══ BDAY ═══ */
+#bdayBanner{display:none;margin:6px 14px 0;border-radius:var(--r);padding:14px;text-align:center;box-shadow:var(--shadow);border:2px dashed var(--pink);background:linear-gradient(135deg,#fdf2f8,#f5f3ff,#ecfdf5);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.01)}}
+.bd-t{font-family:var(--serif);font-size:22px;color:var(--pinkd);font-style:italic}
+.bd-s{font-size:13px;color:var(--lavd);margin-top:3px;font-weight:600}
+
+/* ═══ APP ═══ */
+#app{height:100%;display:flex;flex-direction:column;overflow:hidden;position:relative;z-index:1}
+
+/* ═══ HEADER ═══ */
+.header{padding:52px 18px 10px;flex-shrink:0}
+.header-row{display:flex;align-items:center;justify-content:space-between}
+.header-left{}
+.h-hello{font-size:12px;color:var(--tx4);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.h-name{font-family:var(--serif);font-size:28px;color:var(--tx);font-style:italic;line-height:1.1}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.date-chip{background:var(--lavl);border:1.5px solid var(--lav);border-radius:20px;padding:5px 13px;font-size:12px;color:var(--lavd);font-weight:700}
+.cd-chip{background:var(--pinkl);border:1.5px solid var(--pink);border-radius:20px;padding:4px 11px;font-size:11px;color:var(--pinkd);font-weight:700}
+.notif-btn{background:none;border:none;font-size:18px;cursor:pointer}
+
+/* ═══ NAV ═══ */
+.nav{display:flex;gap:6px;padding:8px 18px 6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.nav::-webkit-scrollbar{display:none}
+.np{flex-shrink:0;padding:7px 15px;border-radius:20px;border:1.5px solid var(--border2);background:var(--card);color:var(--tx4);font-family:var(--sans);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;box-shadow:0 1px 8px rgba(124,58,237,0.07)}
+.np.on{background:var(--lavd);color:#fff;border-color:var(--lavd);box-shadow:0 3px 12px rgba(124,58,237,0.3)}
+
+/* ═══ CONTENT ═══ */
+.content{flex:1;overflow-y:auto;padding:8px 18px 100px;scrollbar-width:none}
+.content::-webkit-scrollbar{display:none}
+.sec{display:none;animation:fu .28s ease}
+.sec.on{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.sec-title{font-family:var(--serif);font-size:22px;color:var(--tx);font-style:italic;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+
+/* ═══ CARDS ═══ */
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--rl);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.ct{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--tx4);margin-bottom:12px;font-weight:800}
+.card-lav{background:var(--lavl);border-color:var(--lav)}
+.card-pink{background:var(--pinkl);border-color:var(--pink)}
+.card-mint{background:var(--mintl);border-color:var(--mint)}
+.card-sky{background:var(--skyl);border-color:var(--sky)}
+.card-peach{background:var(--peachl);border-color:var(--peach)}
+.card-sage{background:var(--sagel);border-color:var(--sage)}
+
+/* ═══ HOME HERO ═══ */
+.hero{border-radius:var(--rl);padding:20px;margin-bottom:12px;box-shadow:var(--shadow);position:relative;overflow:hidden;min-height:130px;
+  background:linear-gradient(135deg,#f5f3ff,#fdf2f8,#ecfdf5);border:1.5px solid var(--border2)}
+.hero-floral{position:absolute;right:-8px;bottom:-8px;font-size:80px;opacity:.15;pointer-events:none;line-height:1}
+.hero-tag{font-size:10px;color:var(--lavd);text-transform:uppercase;letter-spacing:.1em;font-weight:800;margin-bottom:6px}
+.hero-q{font-family:var(--serif);font-size:18px;line-height:1.5;color:var(--tx);font-style:italic;max-width:80%}
+.hero-src{font-size:12px;color:var(--tx4);margin-top:8px;font-weight:600}
+.motive-strip{background:linear-gradient(90deg,var(--lavl),var(--pinkl));border:1.5px solid var(--lav);border-radius:var(--rs);padding:12px 16px;margin-bottom:12px;font-size:13px;color:var(--lavd);font-weight:600;line-height:1.5;position:relative;overflow:hidden}
+.motive-strip::before{content:'✦';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:20px;opacity:.3}
+
+/* ═══ QUICK ACCESS GRID ═══ */
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.q-item{border-radius:var(--r);padding:16px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow);border:1.5px solid transparent;display:flex;flex-direction:column;gap:4px}
+.q-item:active{transform:scale(.96)}
+.q-icon{font-size:28px;line-height:1}
+.q-label{font-weight:800;font-size:13px;color:var(--tx)}
+.q-sub{font-size:10px;color:var(--tx4);font-weight:600}
+.qi-lav{background:var(--lavl);border-color:var(--lav)}
+.qi-pink{background:var(--pinkl);border-color:var(--pink)}
+.qi-mint{background:var(--mintl);border-color:var(--mint)}
+.qi-sky{background:var(--skyl);border-color:var(--sky)}
+
+/* ═══ STAT GRID ═══ */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat-box{border-radius:var(--r);padding:16px;box-shadow:var(--shadow);border:1.5px solid transparent}
+.stat-num{font-family:var(--serif);font-size:32px;color:var(--tx);font-style:italic;line-height:1}
+.stat-lbl{font-size:11px;color:var(--tx4);font-weight:700;margin-top:4px}
+.stat-icon{font-size:22px;margin-bottom:6px}
+.si-lav{background:var(--lavl);border-color:var(--lav)}
+.si-pink{background:var(--pinkl);border-color:var(--pink)}
+.si-mint{background:var(--mintl);border-color:var(--mint)}
+.si-sky{background:var(--skyl);border-color:var(--sky)}
+
+/* ═══ INPUTS ═══ */
+.inp{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rs);padding:11px 14px;color:var(--tx);font-family:var(--sans);font-size:13px;font-weight:600;outline:none;transition:border-color .2s;width:100%}
+.inp:focus{border-color:var(--lavd)}
+.inp::placeholder{color:var(--tx4);font-weight:500;font-style:italic}
+select.inp{cursor:pointer}
+.row{display:flex;gap:8px;margin-bottom:9px;align-items:stretch}
+.badd{background:var(--lavd);color:#fff;border:none;border-radius:var(--rs);padding:11px 17px;font-size:18px;cursor:pointer;flex-shrink:0;font-weight:800;box-shadow:0 2px 10px rgba(124,58,237,.3)}
+.badd:active{transform:scale(.93)}
+.bfull{width:100%;padding:13px;border:none;border-radius:var(--rs);font-family:var(--sans);font-size:13px;font-weight:800;cursor:pointer;transition:opacity .15s}
+.bfull:active{opacity:.85}
+.b-lav{background:var(--lavd);color:#fff;box-shadow:0 2px 10px rgba(124,58,237,.3)}
+.b-pink{background:var(--pinkd);color:#fff}
+.b-mint{background:var(--mintd);color:#fff}
+.b-ghost{background:var(--lavl);color:var(--lavd);border:1.5px solid var(--lav)}
+
+/* ═══ LIST ITEMS ═══ */
+.li{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card2);border-radius:var(--rs);margin-bottom:7px;border:1.5px solid var(--border)}
+.li-main{flex:1;min-width:0}
+.li-t{font-size:13px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.li-s{font-size:11px;color:var(--tx4);margin-top:2px;font-weight:500}
+.xbtn{background:none;border:none;color:var(--tx4);font-size:16px;cursor:pointer;padding:3px 7px;flex-shrink:0}
+.xbtn:active{color:var(--pinkd)}
+.chk{width:22px;height:22px;border-radius:50%;border:2px solid var(--border2);background:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.chk.ok{background:var(--mintd);border-color:var(--mintd)}
+.chk.ok::after{content:'✓';font-size:11px;color:#fff;font-weight:800}
+.chip{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;margin-left:5px;font-weight:800}
+.cr{background:#fee2e2;color:#dc2626}.cy{background:#fef3c7;color:#d97706}.cg{background:#dcfce7;color:#16a34a}
+.empty{text-align:center;padding:28px 0;color:var(--tx4);font-size:13px;font-weight:600}
+.ei{font-size:32px;margin-bottom:8px}
+
+/* ═══ TAKVİM ═══ */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-title{font-family:var(--serif);font-size:20px;color:var(--tx);font-style:italic}
+.cal-nb{background:var(--lavl);border:1.5px solid var(--lav);border-radius:10px;padding:6px 14px;color:var(--lavd);font-size:14px;cursor:pointer;font-weight:700}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:14px}
+.cal-head{font-size:11px;color:var(--tx4);text-align:center;padding:3px 0;font-weight:800}
+.cal-day{font-size:12px;text-align:center;padding:7px 2px;border-radius:10px;min-height:36px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-weight:700;color:var(--tx)}
+.cal-day.today{background:var(--lavd);color:#fff;box-shadow:0 2px 8px rgba(124,58,237,.3)}
+.cal-day.has-ev{background:var(--lavl);color:var(--lavd)}
+.cal-day.bday{background:var(--pinkl);border:1.5px dashed var(--pinkd);color:var(--pinkd)}
+.cal-dot{width:5px;height:5px;border-radius:50%;background:var(--lavd);margin:1px auto 0}
+.cal-day.today .cal-dot{background:#fff}
+.cal-ev-item{background:var(--card2);border-left:3px solid var(--lavd);border-radius:0 var(--rs) var(--rs) 0;padding:9px 12px;margin-bottom:7px;font-size:12px;color:var(--tx);font-weight:700}
+.cal-ev-date{font-size:10px;color:var(--tx4);margin-bottom:3px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+
+/* ═══ POMODORO ═══ */
+.pomo-wrap{text-align:center;padding:8px 0}
+.pomo-ring{width:160px;height:160px;border-radius:50%;border:3px solid var(--lavl);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;position:relative;background:white;box-shadow:0 4px 20px rgba(124,58,237,.12)}
+.pomo-svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.pomo-circle{fill:none;stroke:var(--lavd);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .5s ease}
+.pomo-time{font-family:var(--serif);font-size:42px;color:var(--tx);font-style:italic}
+.pomo-lbl{font-size:12px;color:var(--tx4);font-weight:700;margin-top:3px}
+.pmbtns{display:flex;gap:6px;justify-content:center;margin-bottom:12px}
+.pmb{padding:7px 15px;border-radius:20px;border:1.5px solid var(--border2);background:var(--card);color:var(--tx4);font-size:12px;font-weight:700;cursor:pointer}
+.pmb.on{background:var(--lavl);border-color:var(--lavd);color:var(--lavd)}
+.pomo-btns{display:flex;gap:8px;justify-content:center;margin-bottom:14px}
+.pomo-stats{display:flex;justify-content:center;gap:32px}
+.psn{font-family:var(--serif);font-size:30px;color:var(--lavd);font-style:italic}
+.psl{font-size:11px;color:var(--tx4);font-weight:700}
+
+/* ═══ MOOD ═══ */
+.mood-row{display:flex;justify-content:space-between;margin-bottom:14px;gap:5px}
+.mood-btn{flex:1;padding:12px 4px;background:var(--card2);border:1.5px solid var(--border);border-radius:14px;cursor:pointer;font-size:24px;text-align:center;transition:all .2s;display:flex;flex-direction:column;align-items:center}
+.mood-btn.sel{border-color:var(--lavd);background:var(--lavl);transform:scale(1.08);box-shadow:0 3px 12px rgba(124,58,237,.2)}
+.mood-lbl{font-size:10px;color:var(--tx4);display:block;margin-top:4px;font-weight:700}
+.mood-chart{display:flex;align-items:flex-end;gap:6px;height:72px;margin-top:12px}
+.mbar-w{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.mbar{width:100%;border-radius:4px 4px 0 0;min-height:5px;transition:height .4s}
+.mday{font-size:9px;color:var(--tx4);font-weight:800}
+
+/* ═══ TEZ ═══ */
+.tez-pct{font-family:var(--serif);font-size:48px;color:var(--lavd);text-align:center;margin-bottom:4px;font-style:italic}
+.tez-lbl{font-size:13px;color:var(--tx4);text-align:center;margin-bottom:14px;font-weight:600}
+.tez-prog{background:var(--lavl);border-radius:20px;height:10px;overflow:hidden;margin-bottom:16px}
+.tez-bar{height:100%;background:linear-gradient(90deg,var(--lav),var(--lavd));border-radius:20px;transition:width .6s ease}
+.tez-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.tez-ph{background:var(--card2);border:1.5px solid var(--border);border-radius:var(--rs);padding:13px;cursor:pointer;transition:all .2s}
+.tez-ph.done{border-color:var(--mintd);background:var(--mintl)}
+.tez-ph-n{font-size:12px;color:var(--tx);font-weight:700}
+.tez-ph-p{font-size:11px;color:var(--tx4);margin-top:3px;font-weight:600}
+.tez-mini{background:var(--lavl);border-radius:4px;height:5px;margin-top:7px;overflow:hidden}
+.tez-mini-fill{height:100%;background:var(--lavd);border-radius:4px;transition:width .4s}
+
+/* ═══ HEDEF ═══ */
+.hcard{background:var(--card2);border:1.5px solid var(--border);border-radius:var(--rs);padding:14px;margin-bottom:8px}
+.hcard-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.hcard-n{font-size:13px;color:var(--tx);font-weight:700}
+.hprog{background:var(--lavl);border-radius:10px;height:7px;overflow:hidden;margin-bottom:8px}
+.hbar{height:100%;background:linear-gradient(90deg,var(--lav),var(--mint));border-radius:10px;transition:width .4s}
+.hsteps{display:flex;gap:4px}
+.hstep{flex:1;height:30px;border:1.5px solid var(--border2);border-radius:8px;background:transparent;cursor:pointer;font-size:11px;color:var(--tx4);font-weight:800}
+.hstep.ok{background:var(--lavl);border-color:var(--lavd);color:var(--lavd)}
+
+/* ═══ MAKALE ═══ */
+.mkcard{background:var(--card2);border:1.5px solid var(--border);border-radius:var(--rs);padding:14px;margin-bottom:8px}
+.mkcard-t{font-size:13px;color:var(--tx);margin-bottom:4px;font-weight:700}
+.mkcard-u{font-size:11px;color:var(--lavd);text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.mkcard-n{font-size:11px;color:var(--tx4);font-style:italic}
+.mkcard-acts{display:flex;gap:6px;margin-top:9px}
+.mkbtn{padding:6px 14px;border-radius:9px;border:none;font-size:12px;cursor:pointer;font-weight:700}
+
+/* ═══ MÜZİK ═══ */
+.music-hero{border-radius:var(--rl);padding:22px;text-align:center;margin-bottom:12px;box-shadow:var(--shadow);background:linear-gradient(135deg,var(--lavl),var(--pinkl));border:1.5px solid var(--lav)}
+.music-t{font-family:var(--serif);font-size:22px;color:var(--tx);font-style:italic;margin-bottom:5px}
+.music-s{font-size:13px;color:var(--lavd);margin-bottom:14px;font-weight:600}
+.mlinks{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ml{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:20px;text-decoration:none;font-size:13px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.ml-sp{background:#1DB954;color:#000}
+.ml-yt{background:#FF0000;color:#fff}
+
+/* ═══ FOTO ═══ */
+.foto-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.foto-card{background:white;border:2px solid var(--lavl);border-radius:var(--rs);overflow:hidden;box-shadow:var(--shadow);position:relative}
+.foto-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block;padding:5px 5px 0}
+.foto-note{font-size:12px;color:var(--tx2);padding:6px 9px 8px;text-align:center;font-weight:600}
+.foto-del{position:absolute;top:6px;right:6px;background:rgba(255,255,255,.92);border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+
+/* ═══ LİSTE ═══ */
+.media-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.media-card{background:var(--card2);border:1.5px solid var(--border);border-radius:var(--rs);padding:14px;cursor:pointer;position:relative;transition:opacity .2s}
+.media-type{font-size:11px;color:var(--lavd);margin-bottom:4px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.media-title{font-size:13px;color:var(--tx);line-height:1.35;font-weight:700}
+.media-done{opacity:.4}
+.media-done .media-title{text-decoration:line-through}
+.media-x{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--tx4);font-size:14px;cursor:pointer}
+
+/* ═══ JOURNAL ═══ */
+.jdate{font-family:var(--serif);font-size:20px;color:var(--lavd);margin-bottom:12px;font-style:italic}
+.jtxt{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rs);padding:14px;color:var(--tx);font-family:var(--sans);font-size:13px;font-weight:500;line-height:1.8;resize:none;outline:none;min-height:150px}
+.jtxt:focus{border-color:var(--lavd)}
+.jentry{padding:13px 15px;background:var(--card2);border-radius:var(--rs);margin-bottom:8px;border-left:3px solid var(--lavd)}
+.jentry-d{font-size:10px;color:var(--tx4);margin-bottom:5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.jentry-t{font-size:13px;color:var(--tx);line-height:1.6;font-weight:500}
+
+/* ═══ TEMA ═══ */
+.theme-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:4px}
+.theme-btn{border-radius:16px;padding:12px 8px;text-align:center;cursor:pointer;border:2.5px solid transparent;transition:all .2s;box-shadow:var(--shadow)}
+.theme-btn.active{border-color:var(--lavd);transform:scale(1.04)}
+.theme-swatch{display:flex;gap:3px;margin-bottom:7px;height:22px;border-radius:8px;overflow:hidden}
+.theme-swatch div{flex:1}
+.theme-name{font-size:11px;font-weight:800;color:var(--tx)}
+.theme-check{font-size:10px;color:var(--lavd);margin-top:2px}
+.fs-row{display:flex;gap:8px;align-items:center}
+.fs-btn{flex:1;padding:10px;border-radius:var(--rs);border:1.5px solid var(--border2);background:var(--card);color:var(--tx);font-weight:800;font-family:var(--sans);cursor:pointer;transition:all .2s;text-align:center}
+.fs-btn.active{background:var(--lavd);color:#fff;border-color:var(--lavd)}
+
+/* ═══ FLORAL DECO (on cards) ═══ */
+.floral-deco{position:absolute;opacity:.08;pointer-events:none;font-size:48px;right:-4px;bottom:-8px;line-height:1}
+
+/* ═══ CONFETTI ═══ */
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.conf{position:fixed;top:0;pointer-events:none;z-index:998;font-size:22px;animation:fall linear forwards}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sp-card">
+    <span class="sp-flower">🌸</span>
+    <div class="sp-name">Ayşenaz</div>
+    <div class="sp-hello">asistanın hazır ♡</div>
+    <div class="sp-cd" id="spCd">yükleniyor...</div>
+  </div>
+</div>
+
+<div id="bdayBanner">
+  <div class="bd-t">🎂 İyi ki doğdun Ayşenaz!</div>
+  <div class="bd-s">Bugün senin günün 🌸 Çok mutlu ol!</div>
+</div>
+
+<div id="app">
+  <div class="header">
+    <div class="header-row">
+      <div class="header-left">
+        <div class="h-hello">hoş geldin ♡</div>
+        <div class="h-name">Ayşenaz</div>
+      </div>
+      <div class="header-right">
+        <div class="date-chip" id="datePill"></div>
+        <div class="cd-chip" id="cdTag"></div>
+        <button class="notif-btn" onclick="requestNotif()">🔔</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="np on" onclick="goTab('home',this)">🏠 Ana Sayfa</button>
+    <button class="np" onclick="goTab('takvim',this)">📆 Takvim</button>
+    <button class="np" onclick="goTab('pomodoro',this)">⏱ Pomodoro</button>
+    <button class="np" onclick="goTab('dersler',this)">📚 Dersler</button>
+    <button class="np" onclick="goTab('sinav',this)">📋 Sınavlar</button>
+    <button class="np" onclick="goTab('tez',this)">🎓 Tez</button>
+    <button class="np" onclick="goTab('hedef',this)">🎯 Hedefler</button>
+    <button class="np" onclick="goTab('makale',this)">📰 Makaleler</button>
+    <button class="np" onclick="goTab('liste',this)">🎬 İzle/Oku</button>
+    <button class="np" onclick="goTab('foto',this)">📸 Anılar</button>
+    <button class="np" onclick="goTab('muzik',this)">🎵 Müzik</button>
+    <button class="np" onclick="goTab('mood',this)">🌿 Mood</button>
+    <button class="np" onclick="goTab('journal',this)">✍️ Günlük</button>
+    <button class="np" onclick="goTab('tema',this)">🎨 Tema</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ HOME ═══ -->
+    <div class="sec on" id="sec-home">
+      <div class="hero">
+        <div class="floral-deco" id="heroFloral">🌸</div>
+        <div class="hero-tag" id="heroDay"></div>
+        <div class="hero-q" id="heroQ"></div>
+        <div class="hero-src" id="heroSrc"></div>
+      </div>
+      <div class="motive-strip" id="motiveEl"></div>
+      <div class="quick-grid">
+        <div class="q-item qi-lav" onclick="goTabN('takvim')">
+          <div class="q-icon">📆</div>
+          <div class="q-label">Takvim</div>
+          <div class="q-sub" id="qCalSub">etkinlikler</div>
+        </div>
+        <div class="q-item qi-pink" onclick="goTabN('pomodoro')">
+          <div class="q-icon">⏱</div>
+          <div class="q-label">Pomodoro</div>
+          <div class="q-sub" id="qPomoSub">bugün: 0</div>
+        </div>
+        <div class="q-item qi-mint" onclick="goTabN('tez')">
+          <div class="q-icon">🎓</div>
+          <div class="q-label">Tez</div>
+          <div class="q-sub" id="qTezSub">0% tamamlandı</div>
+        </div>
+        <div class="q-item qi-sky" onclick="goTabN('mood')">
+          <div class="q-icon">🌿</div>
+          <div class="q-label">Mood</div>
+          <div class="q-sub" id="qMoodSub">bugün: —</div>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box si-lav"><div class="stat-icon">📚</div><div class="stat-num" id="s1">0</div><div class="stat-lbl">aktif ders</div></div>
+        <div class="stat-box si-pink"><div class="stat-icon">📋</div><div class="stat-num" id="s2">0</div><div class="stat-lbl">yaklaşan sınav</div></div>
+        <div class="stat-box si-mint"><div class="stat-icon">🎓</div><div class="stat-num" id="s3">0%</div><div class="stat-lbl">tez ilerlemesi</div></div>
+        <div class="stat-box si-sky"><div class="stat-icon">⏱</div><div class="stat-num" id="s4">0</div><div class="stat-lbl">pomodoro bugün</div></div>
+      </div>
+    </div>
+
+    <!-- ═══ TAKVİM ═══ -->
+    <div class="sec" id="sec-takvim">
+      <div class="sec-title">📆 Takvim</div>
+      <div class="card">
+        <div class="cal-nav">
+          <button class="cal-nb" onclick="calNav(-1)">‹</button>
+          <div class="cal-title" id="calTitle"></div>
+          <button class="cal-nb" onclick="calNav(1)">›</button>
+        </div>
+        <div class="cal-grid" id="calDays"></div>
+      </div>
+      <div class="card card-lav"><div class="ct">Bu aydaki etkinlikler</div><div id="calEvents"></div></div>
+      <div class="card"><div class="ct">Etkinlik ekle</div>
+        <div class="row">
+          <input type="date" class="inp" id="evDate" style="color-scheme:light;flex:1">
+          <input class="inp" id="evName" placeholder="sınav, teslim, randevu...">
+          <button class="badd" onclick="addEvent()">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ POMODORO ═══ -->
+    <div class="sec" id="sec-pomodoro">
+      <div class="sec-title">⏱ Pomodoro</div>
+      <div class="card card-lav">
+        <div class="pmbtns">
+          <button class="pmb on" onclick="setPomoMode('work',this)">🍅 Çalışma 25dk</button>
+          <button class="pmb" onclick="setPomoMode('short',this)">🌿 Mola 5dk</button>
+          <button class="pmb" onclick="setPomoMode('long',this)">☕ Uzun 15dk</button>
+        </div>
+        <div class="pomo-wrap">
+          <div class="pomo-ring">
+            <svg class="pomo-svg" viewBox="0 0 160 160"><circle cx="80" cy="80" r="74" fill="none" stroke="var(--lavl)" stroke-width="5"/><circle class="pomo-circle" id="pomoCircle" cx="80" cy="80" r="74" stroke-dasharray="465" stroke-dashoffset="0"/></svg>
+            <div><div class="pomo-time" id="pomoTime">25:00</div><div class="pomo-lbl" id="pomoLbl">Çalışma zamanı 🌸</div></div>
+          </div>
+          <div class="pomo-btns">
+            <button class="bfull b-lav" style="width:auto;padding:11px 30px" onclick="togglePomo()"><span id="pomoBtnTxt">▶ Başlat</span></button>
+            <button class="bfull b-ghost" style="width:auto;padding:11px 20px" onclick="resetPomo()">↺</button>
+          </div>
+          <div class="pomo-stats">
+            <div><div class="psn" id="pomoToday">0</div><div class="psl">bugün</div></div>
+            <div><div class="psn" id="pomoAll">0</div><div class="psl">toplam</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card"><div class="ct">Ne üzerinde çalışıyorum?</div>
+        <input class="inp" id="pomoTask" placeholder="örn: tez literatür taraması...">
+        <div class="motive-strip" style="margin-top:10px">🌸 25 dk çalış → 5 dk mola. Küçük adımlar, büyük başarılar!</div>
+      </div>
+    </div>
+
+    <!-- ═══ DERSLER ═══ -->
+    <div class="sec" id="sec-dersler">
+      <div class="sec-title">📚 Derslerim</div>
+      <div class="card card-lav"><div class="ct">Yeni ders ekle</div>
+        <div class="row"><input class="inp" id="dI" placeholder="ders adı..." maxlength="40" onkeydown="if(event.key==='Enter')addDers()"><button class="badd" onclick="addDers()">+</button></div>
+        <input class="inp" id="dN" placeholder="not... (isteğe bağlı)" maxlength="80">
+      </div>
+      <div class="card"><div class="ct">Derslerim</div><div id="dersList"></div></div>
+    </div>
+
+    <!-- ═══ SINAV ═══ -->
+    <div class="sec" id="sec-sinav">
+      <div class="sec-title">📋 Sınavlar & Ödevler</div>
+      <div class="card card-pink"><div class="ct">Yeni ekle</div>
+        <div class="row"><input class="inp" id="sI" placeholder="sınav veya ödev..." maxlength="50" onkeydown="if(event.key==='Enter')addSinav()"><button class="badd" onclick="addSinav()">+</button></div>
+        <div class="row" style="margin-bottom:0">
+          <input type="date" class="inp" id="sD" style="color-scheme:light;flex:1">
+          <select class="inp" id="sT" style="flex:0 0 auto;width:auto">
+            <option value="sınav">📝 Sınav</option><option value="ödev">📋 Ödev</option>
+            <option value="teslim">📦 Teslim</option><option value="sunum">🎤 Sunum</option>
+          </select>
+        </div>
+      </div>
+      <div class="card"><div class="ct">Takvim</div><div id="sinavList"></div></div>
+    </div>
+
+    <!-- ═══ TEZ ═══ -->
+    <div class="sec" id="sec-tez">
+      <div class="sec-title">🎓 Yüksek Lisans Tezi</div>
+      <div class="card card-lav">
+        <div class="tez-pct" id="tezPct">0%</div>
+        <div class="tez-lbl" id="tezLbl">Henüz başlamadın — bugün bir adım at 🌸</div>
+        <div class="tez-prog"><div class="tez-bar" id="tezBar" style="width:0%"></div></div>
+      </div>
+      <div class="card"><div class="ct">Aşamalar <span style="font-size:10px;color:var(--tx4);font-weight:600">(dokunarak güncelle)</span></div><div class="tez-grid" id="tezGrid"></div></div>
+      <div class="card"><div class="ct">Danışman Notları</div>
+        <textarea class="jtxt" id="tezNote" placeholder="toplantı notları, sorular, fikirler..." rows="4" oninput="saveTezNote()"></textarea>
+      </div>
+      <div class="card"><div class="ct">Önemli Tarihler</div>
+        <div class="row"><input class="inp" id="tezDI" placeholder="örn: ara sunum..." maxlength="50"><input type="date" class="inp" id="tezDD" style="color-scheme:light;flex:0 0 150px"><button class="badd" onclick="addTezDate()">+</button></div>
+        <div id="tezDateList"></div>
+      </div>
+    </div>
+
+    <!-- ═══ HEDEFLER ═══ -->
+    <div class="sec" id="sec-hedef">
+      <div class="sec-title">🎯 Haftalık Hedefler</div>
+      <div class="card card-mint"><div class="ct">Yeni hedef</div>
+        <div class="row"><input class="inp" id="hI" placeholder="hedef..." maxlength="50" onkeydown="if(event.key==='Enter')addHedef()"><input class="inp" id="hS" type="number" min="1" max="7" placeholder="gün" style="flex:0 0 58px;text-align:center"><button class="badd" onclick="addHedef()">+</button></div>
+      </div>
+      <div class="card"><div class="ct">Hedeflerim</div><div id="hedefList"></div></div>
+    </div>
+
+    <!-- ═══ MAKALE ═══ -->
+    <div class="sec" id="sec-makale">
+      <div class="sec-title">📰 Makale Listem</div>
+      <div class="card card-sky"><div class="ct">Makale ekle</div>
+        <div class="row"><input class="inp" id="mklI" placeholder="makale başlığı..." maxlength="80" onkeydown="if(event.key==='Enter')addMakale()"><button class="badd" onclick="addMakale()">+</button></div>
+        <input class="inp" id="mklU" placeholder="doi veya link..." maxlength="200" style="margin-bottom:8px">
+        <input class="inp" id="mklN" placeholder="not..." maxlength="100">
+      </div>
+      <div class="card"><div class="ct">Okuma Listesi</div><div id="makaleList"></div></div>
+    </div>
+
+    <!-- ═══ LİSTE ═══ -->
+    <div class="sec" id="sec-liste">
+      <div class="sec-title">🎬 İzle / Oku / Dinle</div>
+      <div class="card"><div class="ct">Ekle</div>
+        <div class="row">
+          <input class="inp" id="lI" placeholder="kitap / film / dizi..." maxlength="60" onkeydown="if(event.key==='Enter')addListe()">
+          <select class="inp" id="lT" style="flex:0 0 auto;width:auto">
+            <option value="kitap">📚 Kitap</option><option value="film">🎬 Film</option>
+            <option value="dizi">📺 Dizi</option><option value="albüm">🎵 Albüm</option>
+          </select>
+          <button class="badd" onclick="addListe()">+</button>
+        </div>
+      </div>
+      <div class="card"><div class="ct">Listem <span style="font-size:10px;color:var(--tx4);font-weight:600">(tıklayarak tamamlandı)</span></div>
+        <div class="media-grid" id="listeGrid"></div>
+        <div id="listeEmpty" class="empty" style="display:none"><div class="ei">🎬</div>liste boş</div>
+      </div>
+    </div>
+
+    <!-- ═══ FOTO ═══ -->
+    <div class="sec" id="sec-foto">
+      <div class="sec-title">📸 Anılarım</div>
+      <div class="card card-pink"><div class="ct">Anı ekle</div>
+        <input type="file" id="fotoFile" accept="image/*" style="display:none" onchange="handleFoto()">
+        <button class="bfull b-pink" onclick="document.getElementById('fotoFile').click()" style="margin-bottom:9px">📷 Fotoğraf seç</button>
+        <input class="inp" id="fotoNote" placeholder="bu an için bir not... ♡" maxlength="80" style="margin-bottom:8px">
+        <button class="bfull b-ghost" onclick="addFoto()">ekle ✦</button>
+      </div>
+      <div class="card"><div class="ct">Anılarım ♡</div>
+        <div class="foto-grid" id="fotoGrid"></div>
+        <div id="fotoEmpty" class="empty" style="display:none"><div class="ei">📸</div>henüz anı yok</div>
+      </div>
+    </div>
+
+    <!-- ═══ MÜZİK ═══ -->
+    <div class="sec" id="sec-muzik">
+      <div class="sec-title">🎵 Müzik</div>
+      <div class="music-hero">
+        <div style="font-size:44px;margin-bottom:10px">🎵 🌸 🎶</div>
+        <div class="music-t">Ayşenaz'ın Playlistleri</div>
+        <div class="music-s">Çalışma müziğin bir tık uzağında ♡</div>
+        <div class="mlinks" id="musicLinks"><span style="color:var(--lavd);font-size:13px;font-weight:600">Aşağıdan linklerini ekle ↓</span></div>
+      </div>
+      <div class="card"><div class="ct">Spotify Playlist</div>
+        <div class="row"><input class="inp" id="spotInp" placeholder="Spotify link..."><button class="badd" onclick="saveSpot()">💾</button></div>
+      </div>
+      <div class="card"><div class="ct">YouTube Playlist</div>
+        <div class="row"><input class="inp" id="ytInp" placeholder="YouTube link..."><button class="badd" onclick="saveYt()">💾</button></div>
+      </div>
+      <div class="card"><div class="ct">Hazır Çalışma Listeleri</div>
+        <a href="https://www.youtube.com/results?search_query=lofi+study+music" target="_blank" class="li" style="text-decoration:none"><div class="li-main"><div class="li-t">🎵 Lofi Hip Hop Study</div><div class="li-s">YouTube</div></div><span style="color:var(--tx4)">↗</span></a>
+        <a href="https://www.youtube.com/results?search_query=classical+music+study" target="_blank" class="li" style="text-decoration:none"><div class="li-main"><div class="li-t">🎻 Klasik Müzik Study</div><div class="li-s">YouTube</div></div><span style="color:var(--tx4)">↗</span></a>
+        <a href="https://www.youtube.com/results?search_query=cozy+aesthetic+study+music" target="_blank" class="li" style="text-decoration:none"><div class="li-main"><div class="li-t">🌸 Cozy Aesthetic Study</div><div class="li-s">YouTube</div></div><span style="color:var(--tx4)">↗</span></a>
+      </div>
+    </div>
+
+    <!-- ═══ MOOD ═══ -->
+    <div class="sec" id="sec-mood">
+      <div class="sec-title">🌿 Mood Tracker</div>
+      <div class="card card-lav"><div class="ct">Bugün nasıl hissediyorsun?</div>
+        <div class="mood-row">
+          <button class="mood-btn" onclick="setMood(1,this)">😞<span class="mood-lbl">berbat</span></button>
+          <button class="mood-btn" onclick="setMood(2,this)">😔<span class="mood-lbl">kötü</span></button>
+          <button class="mood-btn" onclick="setMood(3,this)">😐<span class="mood-lbl">orta</span></button>
+          <button class="mood-btn" onclick="setMood(4,this)">🙂<span class="mood-lbl">iyi</span></button>
+          <button class="mood-btn" onclick="setMood(5,this)">😄<span class="mood-lbl">harika</span></button>
+        </div>
+        <div id="moodMsg" style="text-align:center;font-size:13px;color:var(--lavd);min-height:22px;font-weight:600"></div>
+      </div>
+      <div class="card"><div class="ct">Bu Hafta</div><div class="mood-chart" id="moodChart"></div></div>
+    </div>
+
+    <!-- ═══ JOURNAL ═══ -->
+    <div class="sec" id="sec-journal">
+      <div class="sec-title">✍️ Günlüğüm</div>
+      <div class="card card-peach">
+        <div class="jdate" id="jDate"></div>
+        <textarea class="jtxt" id="jText" placeholder="bugün nasıldı? aklındakiler, hissettiklerin... 🌸" rows="6"></textarea>
+        <button class="bfull b-lav" style="margin-top:9px" onclick="saveJournal()">kaydet ♡</button>
+      </div>
+      <div class="card"><div class="ct">Geçmiş Yazılar</div><div id="jList"></div></div>
+    </div>
+
+    <!-- ═══ TEMA ═══ -->
+    <div class="sec" id="sec-tema">
+      <div class="sec-title">🎨 Tema Ayarları</div>
+      <div class="card"><div class="ct">Renk Teması</div>
+        <div class="theme-grid" id="themeGrid"></div>
+      </div>
+      <div class="card"><div class="ct">Yazı Boyutu</div>
+        <div class="fs-row" id="fsRow">
+          <button class="fs-btn" onclick="setFS(0,this)">A küçük</button>
+          <button class="fs-btn active" onclick="setFS(1,this)">A Normal</button>
+          <button class="fs-btn" onclick="setFS(2,this)">A Büyük</button>
+        </div>
+      </div>
+      <div class="card card-lav">
+        <div class="ct">Splash İkonu</div>
+        <div style="margin-bottom:10px">
+          <input type="file" id="customIconFile" accept="image/*" style="display:none" onchange="handleCustomIcon()">
+          <button class="bfull b-ghost" style="margin-bottom:0" onclick="document.getElementById('customIconFile').click()">📷 Kendi fotoğrafını yükle</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px" id="iconGrid"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const TR_DAYS=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+const TR_MONTHS=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const now=new Date();
+function ls(k,d=[]){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}
+function lss(k,d=''){return localStorage.getItem(k)??d}
+function sv(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function svs(k,v){localStorage.setItem(k,v)}
+
+// ═══ BDAY ═══
+const BDAY_M=4,BDAY_D=27;
+const isBday=now.getMonth()===BDAY_M&&now.getDate()===BDAY_D;
+const bdTarget=new Date(now.getFullYear(),BDAY_M,BDAY_D);
+if(bdTarget<now)bdTarget.setFullYear(now.getFullYear()+1);
+const daysUntil=isBday?0:Math.ceil((bdTarget-now)/(864e5));
+const bdayStr=isBday?'🎂 Bugün doğum günün!':`🎂 ${daysUntil} gün kaldı!`;
+
+window.addEventListener('load',()=>{
+  $('spCd').textContent=bdayStr;
+  applyTheme(lss('theme','lavender'));
+  applyFS(parseInt(lss('fsIdx','1')));
+  const icon=lss('splashIcon','bunny');
+  const customImg=lss('customSplashImg','');
+  const sp=document.querySelector('.sp-flower');
+  if(customImg&&icon==='__custom__'){
+    const img=document.createElement('img');img.src=customImg;img.style.cssText='width:80px;height:80px;border-radius:50%;object-fit:cover;display:block;margin:0 auto;animation:bloom 2s ease-in-out infinite';img.className='sp-custom-img';
+    sp.parentNode.insertBefore(img,sp);sp.style.display='none';
+  } else if(SVG_ICONS[icon]){
+    sp.style.cssText='font-size:0;display:block;width:80px;height:80px;margin:0 auto;animation:bloom 2s ease-in-out infinite';
+    sp.innerHTML=SVG_ICONS[icon].svg;
+  } else {
+    sp.textContent='🌸';
+  }
+  setTimeout(()=>{
+    $('splash').classList.add('out');
+    if(isBday){$('bdayBanner').style.display='block';launchConfetti();}
+  },2000);
+});
+
+function launchConfetti(){
+  const em=['🎂','🎉','🎈','✨','🌸','💜','🌟','🎊','🌺','🦋'];
+  for(let i=0;i<30;i++){
+    setTimeout(()=>{const el=document.createElement('div');el.className='conf';el.textContent=em[Math.floor(Math.random()*em.length)];el.style.cssText=`left:${Math.random()*100}vw;animation-duration:${2+Math.random()*3}s`;document.body.appendChild(el);setTimeout(()=>el.remove(),5500);},i*100);
+  }
+}
+
+// ═══ DATE ═══
+$('datePill').textContent=`${TR_DAYS[now.getDay()]}, ${now.getDate()} ${TR_MONTHS[now.getMonth()]}`;
+$('cdTag').textContent=bdayStr;
+$('jDate').textContent=`${now.getDate()} ${TR_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+
+// ═══ QUOTES ═══
+const quotes=[
+  ["Başlamak, bitirmenin yarısıdır.","— Aristoteles"],
+  ["Zihni büyük hayaller besler, küçük engeller değil.","— Marcus Aurelius"],
+  ["İyi bir tez mükemmel değil, tamamlanmış olandır.","— Her danışman"],
+  ["Merak etmek, bilmekten daha güçlüdür.","— Einstein"],
+  ["Akademi bir maraton; sprint yapma, ritim bul.","— 🌸"],
+  ["Bugün bitirdiğin her şey yarına hediyedir.","— bilinmiyor"],
+  ["Küçük adımlar büyük yolculukların sırrıdır.","— 🌸"],
+];
+const q=quotes[now.getDay()%quotes.length];
+$('heroDay').textContent=TR_DAYS[now.getDay()].toUpperCase()+' MOTİVASYONU';
+$('heroQ').textContent=`"${q[0]}"`;$('heroSrc').textContent=q[1];
+
+const motives=[
+  '✦ Bugün bir pomodoro yap. Sadece bir tane. Gerisi kendiliğinden gelir.',
+  '✦ Tez bir günde yazılmaz ama her gün biraz yazılabilir.',
+  '✦ Listeni aç, en zor görüneni yap. Sonrası çok daha kolay gelir.',
+  '✦ Kendine zaman ver. Verimlilik sprint değil, maratondur.',
+  '✦ Bir makale oku. Bir fikir not et. Bir çay iç. Yeterli!',
+];
+$('motiveEl').textContent=motives[now.getDate()%motives.length];
+
+// ═══ STATE ═══
+let S={
+  dersler:ls('dersler'),sinavlar:ls('sinavlar'),liste:ls('liste'),
+  journal:ls('journal'),makale:ls('makale'),hedef:ls('hedef'),
+  mood:ls('mood'),foto:ls('foto'),events:ls('events'),
+  tezPhases:ls('tezPhases',[
+    {name:'Literatür Taraması',pct:0},{name:'Araştırma Sorusu',pct:0},
+    {name:'Metodoloji',pct:0},{name:'Veri Toplama',pct:0},
+    {name:'Analiz',pct:0},{name:'Yazım',pct:0},
+    {name:'Düzeltme',pct:0},{name:'Savunma Hazırlığı',pct:0}
+  ]),
+  tezDates:ls('tezDates'),
+  pomoCount:ls('pomoCount',{date:'',count:0}),
+};
+
+function updateStats(){
+  $('s1').textContent=S.dersler.filter(d=>!d.done).length;
+  $('s2').textContent=S.sinavlar.filter(s=>!s.done).length;
+  const pct=calcTezPct();
+  $('s3').textContent=pct+'%';
+  const td=now.toDateString(),pc=S.pomoCount.date===td?S.pomoCount.count:0;
+  $('s4').textContent=pc;
+  if($('qPomoSub'))$('qPomoSub').textContent='bugün: '+pc;
+  if($('qTezSub'))$('qTezSub').textContent=pct+'% tamamlandı';
+  if($('qCalSub'))$('qCalSub').textContent=(S.events.length+S.sinavlar.filter(x=>x.date).length)+' etkinlik';
+  const todayMood=S.mood.find(m=>m.date===td);
+  const moodEmojis=['','😞','😔','😐','🙂','😄'];
+  if($('qMoodSub'))$('qMoodSub').textContent='bugün: '+(todayMood?moodEmojis[todayMood.val]:'—');
+}
+updateStats();
+
+// ═══ NAV ═══
+function goTab(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.np').forEach(b=>b.classList.remove('on'));
+  $('sec-'+id).classList.add('on');btn.classList.add('on');
+  btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+}
+function goTabN(id){
+  const btn=Array.from(document.querySelectorAll('.np')).find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+id+"'"));
+  if(btn)goTab(id,btn);
+}
+
+// ═══ TAKVİM ═══
+let calY=now.getFullYear(),calM=now.getMonth();
+function calNav(d){calM+=d;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}renderCal();}
+function renderCal(){
+  $('calTitle').textContent=`${TR_MONTHS[calM]} ${calY}`;
+  const fd=new Date(calY,calM,1).getDay(),dim=new Date(calY,calM+1,0).getDate();
+  const heads=['Pt','Sa','Ça','Pe','Cu','Ct','Pz'];
+  let html=heads.map(h=>`<div class="cal-head">${h}</div>`).join('');
+  const off=(fd+6)%7;
+  for(let i=0;i<off;i++)html+=`<div></div>`;
+  for(let d=1;d<=dim;d++){
+    const ds=`${calY}-${String(calM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isT=d===now.getDate()&&calM===now.getMonth()&&calY===now.getFullYear();
+    const isBD=calM===BDAY_M&&d===BDAY_D;
+    const hasEv=S.events.some(e=>e.date===ds)||S.sinavlar.some(e=>e.date===ds)||S.tezDates.some(e=>e.date===ds);
+    let cls='cal-day';
+    if(isT)cls+=' today';else if(isBD)cls+=' bday';else if(hasEv)cls+=' has-ev';
+    html+=`<div class="${cls}">${isBD?'🎂':d}${hasEv&&!isT?'<div class="cal-dot"></div>':''}</div>`;
+  }
+  $('calDays').innerHTML=html;renderCalEvents();
+}
+function renderCalEvents(){
+  const el=$('calEvents');
+  const icons={etkinlik:'📌',sınav:'📝',ödev:'📋',teslim:'📦',sunum:'🎤',tez:'🎓'};
+  const all=[
+    ...S.events.map(e=>({...e,etype:'etkinlik'})),
+    ...S.sinavlar.filter(e=>e.date).map(e=>({date:e.date,name:e.name,etype:e.type})),
+    ...S.tezDates.filter(e=>e.date).map(e=>({date:e.date,name:e.name,etype:'tez'})),
+  ].filter(e=>{if(!e.date)return false;const d=new Date(e.date+'T12:00');return d.getMonth()===calM&&d.getFullYear()===calY;})
+   .sort((a,b)=>new Date(a.date)-new Date(b.date));
+  if(!all.length){el.innerHTML='<div class="empty" style="padding:10px 0">bu ayda etkinlik yok 🌸</div>';return;}
+  el.innerHTML=all.map(e=>`<div class="cal-ev-item"><div class="cal-ev-date">${new Date(e.date+'T12:00').toLocaleDateString('tr-TR',{day:'numeric',month:'long'})}</div>${icons[e.etype]||'📌'} ${e.name}</div>`).join('');
+}
+function addEvent(){
+  const d=$('evDate').value,n=$('evName').value.trim();if(!d||!n)return;
+  S.events.push({id:Date.now(),date:d,name:n});sv('events',S.events);
+  $('evDate').value='';$('evName').value='';renderCal();updateStats();
+}
+renderCal();
+
+// ═══ DERSLER ═══
+function addDers(){const v=$('dI').value.trim();if(!v)return;S.dersler.push({id:Date.now(),name:v,note:$('dN').value.trim(),done:false});sv('dersler',S.dersler);$('dI').value='';$('dN').value='';renderDersler();updateStats();}
+function renderDersler(){const el=$('dersList');if(!S.dersler.length){el.innerHTML='<div class="empty"><div class="ei">📚</div>henüz ders yok</div>';return;}el.innerHTML=S.dersler.map(d=>`<div class="li"><button class="chk ${d.done?'ok':''}" onclick="togDers(${d.id})"></button><div class="li-main"><div class="li-t" style="${d.done?'opacity:.4;text-decoration:line-through':''}">${d.name}</div>${d.note?`<div class="li-s">${d.note}</div>`:''}</div><button class="xbtn" onclick="delDers(${d.id})">×</button></div>`).join('');}
+function togDers(id){const d=S.dersler.find(x=>x.id===id);if(d)d.done=!d.done;sv('dersler',S.dersler);renderDersler();updateStats();}
+function delDers(id){S.dersler=S.dersler.filter(x=>x.id!==id);sv('dersler',S.dersler);renderDersler();updateStats();}
+renderDersler();
+
+// ═══ SINAV ═══
+function addSinav(){const v=$('sI').value.trim();if(!v)return;S.sinavlar.push({id:Date.now(),name:v,date:$('sD').value,type:$('sT').value,done:false});sv('sinavlar',S.sinavlar);$('sI').value='';$('sD').value='';renderSinavlar();updateStats();renderCal();}
+function dLeft(dt){if(!dt)return null;return Math.ceil((new Date(dt)-new Date())/(864e5));}
+function urgChip(d){if(d===null)return'';if(d<0)return`<span class="chip cr">geçti</span>`;if(d===0)return`<span class="chip cr">bugün!</span>`;if(d<=3)return`<span class="chip cr">${d} gün</span>`;if(d<=7)return`<span class="chip cy">${d} gün</span>`;return`<span class="chip cg">${d} gün</span>`;}
+function renderSinavlar(){const el=$('sinavList');const sorted=[...S.sinavlar].sort((a,b)=>(!a.date&&!b.date)?0:!a.date?1:!b.date?-1:new Date(a.date)-new Date(b.date));if(!sorted.length){el.innerHTML='<div class="empty"><div class="ei">📋</div>sınav yok</div>';return;}const icons={sınav:'📝',ödev:'📋',teslim:'📦',sunum:'🎤'};el.innerHTML=sorted.map(s=>`<div class="li"><button class="chk ${s.done?'ok':''}" onclick="togSinav(${s.id})"></button><div class="li-main"><div class="li-t" style="${s.done?'opacity:.4;text-decoration:line-through':''}">${icons[s.type]||'📝'} ${s.name}${urgChip(dLeft(s.date))}</div>${s.date?`<div class="li-s">${new Date(s.date+'T12:00').toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'})}</div>`:''}</div><button class="xbtn" onclick="delSinav(${s.id})">×</button></div>`).join('');}
+function togSinav(id){const s=S.sinavlar.find(x=>x.id===id);if(s)s.done=!s.done;sv('sinavlar',S.sinavlar);renderSinavlar();updateStats();}
+function delSinav(id){S.sinavlar=S.sinavlar.filter(x=>x.id!==id);sv('sinavlar',S.sinavlar);renderSinavlar();updateStats();renderCal();}
+renderSinavlar();
+
+// ═══ TEZ ═══
+function calcTezPct(){return S.tezPhases.length?Math.round(S.tezPhases.reduce((a,p)=>a+p.pct,0)/S.tezPhases.length):0;}
+function renderTez(){
+  const pct=calcTezPct();$('tezPct').textContent=pct+'%';$('tezBar').style.width=pct+'%';
+  const lbls=['Henüz başlamadın — bugün bir adım at 🌸','Yavaş yavaş ilerliyorsun ♡','İyi gidiyorsun Ayşenaz!','Harika! Bitiş görünüyor ✨','Neredeyse tamam! Son rötuşlar 🎓'];
+  $('tezLbl').textContent=lbls[Math.min(Math.floor(pct/25),4)];
+  $('tezGrid').innerHTML=S.tezPhases.map((p,i)=>`<div class="tez-ph ${p.pct>=100?'done':''}" onclick="editTezPhase(${i})"><div class="tez-ph-n">${p.name}</div><div class="tez-ph-p">${p.pct}%</div><div class="tez-mini"><div class="tez-mini-fill" style="width:${p.pct}%"></div></div></div>`).join('');
+  $('s3').textContent=pct+'%';if($('qTezSub'))$('qTezSub').textContent=pct+'% tamamlandı';
+}
+function editTezPhase(i){
+  const p=S.tezPhases[i];
+  // Create inline modal
+  const existing=$('tezModal');if(existing)existing.remove();
+  const modal=document.createElement('div');
+  modal.id='tezModal';
+  modal.style.cssText='position:fixed;inset:0;background:rgba(30,27,75,0.4);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML=`<div style="background:var(--card);border-radius:24px;padding:24px;width:100%;max-width:320px;box-shadow:0 8px 32px rgba(124,58,237,0.2);border:1.5px solid var(--border2)">
+    <div style="font-family:var(--serif);font-size:18px;color:var(--tx);font-style:italic;margin-bottom:4px">${p.name}</div>
+    <div style="font-size:12px;color:var(--tx4);font-weight:600;margin-bottom:16px">Tamamlanma yüzdesi</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      ${[0,10,25,50,75,90,100].map(v=>`<button onclick="setTezPct(${i},${v})" style="flex:1;min-width:50px;padding:8px 4px;border-radius:10px;border:1.5px solid ${p.pct===v?'var(--lavd)':'var(--border2)'};background:${p.pct===v?'var(--lavl)':'var(--card2)'};color:${p.pct===v?'var(--lavd)':'var(--tx)'};font-weight:800;cursor:pointer;font-size:13px">${v}%</button>`).join('')}
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px">
+      <input type="range" id="tezRange" min="0" max="100" value="${p.pct}" oninput="$('tezRangeVal').textContent=this.value+'%'" style="flex:1;accent-color:var(--lavd)">
+      <span id="tezRangeVal" style="font-weight:800;color:var(--lavd);min-width:36px">${p.pct}%</span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button onclick="$('tezModal').remove()" style="flex:1;padding:11px;border:1.5px solid var(--border2);border-radius:12px;background:var(--card2);color:var(--tx4);font-weight:700;cursor:pointer">İptal</button>
+      <button onclick="confirmTezPct(${i})" style="flex:1;padding:11px;border:none;border-radius:12px;background:var(--lavd);color:#fff;font-weight:800;cursor:pointer">Kaydet ✓</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+}
+function setTezPct(i,v){
+  $('tezRange').value=v;$('tezRangeVal').textContent=v+'%';
+  // highlight selected
+  const btns=$('tezModal').querySelectorAll('button');
+  btns.forEach(b=>{if(b.textContent===v+'%'){b.style.background='var(--lavl)';b.style.borderColor='var(--lavd)';b.style.color='var(--lavd)';}else if(!isNaN(parseInt(b.textContent))){b.style.background='var(--card2)';b.style.borderColor='var(--border2)';b.style.color='var(--tx)';}});
+}
+function confirmTezPct(i){
+  const v=parseInt($('tezRange').value)||0;
+  S.tezPhases[i].pct=Math.max(0,Math.min(100,v));
+  sv('tezPhases',S.tezPhases);renderTez();updateStats();
+  $('tezModal').remove();
+}
+function saveTezNote(){svs('tezNote',$('tezNote').value);}
+$('tezNote').value=lss('tezNote');
+function addTezDate(){const v=$('tezDI').value.trim();if(!v)return;S.tezDates.push({id:Date.now(),name:v,date:$('tezDD').value});sv('tezDates',S.tezDates);$('tezDI').value='';$('tezDD').value='';renderTezDates();renderCal();}
+function renderTezDates(){const el=$('tezDateList');if(!S.tezDates.length){el.innerHTML='<div class="empty" style="padding:8px 0;font-size:12px">tarih eklenmedi</div>';return;}el.innerHTML=[...S.tezDates].sort((a,b)=>new Date(a.date)-new Date(b.date)).map(d=>`<div class="li"><div class="li-main"><div class="li-t">🎓 ${d.name}${urgChip(dLeft(d.date))}</div>${d.date?`<div class="li-s">${new Date(d.date+'T12:00').toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'})}</div>`:''}</div><button class="xbtn" onclick="delTezDate(${d.id})">×</button></div>`).join('');}
+function delTezDate(id){S.tezDates=S.tezDates.filter(x=>x.id!==id);sv('tezDates',S.tezDates);renderTezDates();renderCal();}
+renderTez();renderTezDates();
+
+// ═══ HEDEF ═══
+function addHedef(){const v=$('hI').value.trim();if(!v)return;const steps=Math.max(1,Math.min(7,parseInt($('hS').value)||5));S.hedef.push({id:Date.now(),name:v,steps,done:new Array(steps).fill(false)});sv('hedef',S.hedef);$('hI').value='';$('hS').value='';renderHedef();}
+function renderHedef(){const el=$('hedefList');if(!S.hedef.length){el.innerHTML='<div class="empty"><div class="ei">🎯</div>hedef yok</div>';return;}el.innerHTML=S.hedef.map(h=>{const dc=h.done.filter(Boolean).length,pct=Math.round(dc/h.steps*100);return`<div class="hcard"><div class="hcard-h"><div class="hcard-n">${h.name}</div><div style="display:flex;gap:6px;align-items:center"><span style="font-family:var(--serif);font-size:15px;color:var(--lavd);font-style:italic">${pct}%</span><button class="xbtn" onclick="delHedef(${h.id})">×</button></div></div><div class="hprog"><div class="hbar" style="width:${pct}%"></div></div><div class="hsteps">${h.done.map((d,i)=>`<button class="hstep ${d?'ok':''}" onclick="togHedef(${h.id},${i})">${i+1}</button>`).join('')}</div></div>`;}).join('');}
+function togHedef(id,i){const h=S.hedef.find(x=>x.id===id);if(h){h.done[i]=!h.done[i];sv('hedef',S.hedef);renderHedef();}}
+function delHedef(id){S.hedef=S.hedef.filter(x=>x.id!==id);sv('hedef',S.hedef);renderHedef();}
+renderHedef();
+
+// ═══ MAKALE ═══
+function addMakale(){const v=$('mklI').value.trim();if(!v)return;S.makale.push({id:Date.now(),name:v,url:$('mklU').value.trim(),note:$('mklN').value.trim(),done:false});sv('makale',S.makale);$('mklI').value='';$('mklU').value='';$('mklN').value='';renderMakale();}
+function renderMakale(){const el=$('makaleList');if(!S.makale.length){el.innerHTML='<div class="empty"><div class="ei">📰</div>makale yok</div>';return;}el.innerHTML=S.makale.map(m=>`<div class="mkcard" style="${m.done?'opacity:.5':''}"><div class="mkcard-t" style="${m.done?'text-decoration:line-through':''}">${m.name}</div>${m.url?`<a class="mkcard-u" href="${m.url}" target="_blank">${m.url}</a>`:''}${m.note?`<div class="mkcard-n">${m.note}</div>`:''}<div class="mkcard-acts"><button class="mkbtn" style="background:${m.done?'var(--lavl)':'var(--mintd)'};color:${m.done?'var(--lavd)':'#fff'}" onclick="togMakale(${m.id})">${m.done?'↩ geri al':'✓ okundu'}</button><button class="mkbtn" style="background:var(--lavl);color:var(--lavd)" onclick="delMakale(${m.id})">sil</button></div></div>`).join('');}
+function togMakale(id){const m=S.makale.find(x=>x.id===id);if(m)m.done=!m.done;sv('makale',S.makale);renderMakale();}
+function delMakale(id){S.makale=S.makale.filter(x=>x.id!==id);sv('makale',S.makale);renderMakale();}
+renderMakale();
+
+// ═══ LİSTE ═══
+const tEmoji={kitap:'📚',film:'🎬',dizi:'📺','albüm':'🎵'};
+function addListe(){const v=$('lI').value.trim();if(!v)return;S.liste.push({id:Date.now(),name:v,type:$('lT').value,done:false});sv('liste',S.liste);$('lI').value='';renderListe();}
+function renderListe(){const g=$('listeGrid'),em=$('listeEmpty');if(!S.liste.length){g.innerHTML='';em.style.display='block';return;}em.style.display='none';g.innerHTML=S.liste.map(item=>`<div class="media-card ${item.done?'media-done':''}" onclick="togListe(${item.id})"><button class="media-x" onclick="event.stopPropagation();delListe(${item.id})">×</button><div class="media-type">${tEmoji[item.type]||'✦'} ${item.type}</div><div class="media-title">${item.name}</div></div>`).join('');}
+function togListe(id){const x=S.liste.find(i=>i.id===id);if(x)x.done=!x.done;sv('liste',S.liste);renderListe();}
+function delListe(id){S.liste=S.liste.filter(i=>i.id!==id);sv('liste',S.liste);renderListe();}
+renderListe();
+
+// ═══ FOTO ═══
+let pendingFoto=null;
+function handleFoto(){const file=$('fotoFile').files[0];if(!file)return;if(file.size>4*1024*1024){alert('4MB\'dan küçük olmalı');return;}const r=new FileReader();r.onload=e=>{pendingFoto=e.target.result;};r.readAsDataURL(file);}
+function addFoto(){if(!pendingFoto){alert('Önce bir fotoğraf seç 📸');return;}S.foto.push({id:Date.now(),data:pendingFoto,note:$('fotoNote').value.trim()||'♡'});sv('foto',S.foto);pendingFoto=null;$('fotoNote').value='';$('fotoFile').value='';renderFoto();}
+function renderFoto(){const g=$('fotoGrid'),em=$('fotoEmpty');if(!S.foto.length){g.innerHTML='';em.style.display='block';return;}em.style.display='none';g.innerHTML=S.foto.map(f=>`<div class="foto-card"><button class="foto-del" onclick="delFoto(${f.id})">×</button><img src="${f.data}" alt="anı" loading="lazy"><div class="foto-note">${f.note}</div></div>`).join('');}
+function delFoto(id){S.foto=S.foto.filter(x=>x.id!==id);sv('foto',S.foto);renderFoto();}
+renderFoto();
+
+// ═══ MÜZİK ═══
+function renderMusicLinks(){const spot=lss('spotLink'),yt=lss('ytLink');const links=[];if(spot)links.push(`<a class="ml ml-sp" href="${spot}" target="_blank">🎵 Spotify</a>`);if(yt)links.push(`<a class="ml ml-yt" href="${yt}" target="_blank">▶ YouTube</a>`);$('musicLinks').innerHTML=links.length?links.join(''):'<span style="color:var(--lavd);font-size:13px;font-weight:600">Aşağıdan linklerini ekle ↓</span>';if(spot)$('spotInp').value=spot;if(yt)$('ytInp').value=yt;}
+function saveSpot(){const v=$('spotInp').value.trim();if(v)svs('spotLink',v);renderMusicLinks();}
+function saveYt(){const v=$('ytInp').value.trim();if(v)svs('ytLink',v);renderMusicLinks();}
+renderMusicLinks();
+
+// ═══ MOOD ═══
+const moodEmoji=['','😞','😔','😐','🙂','😄'];
+const moodColors=['','#fecdd3','#fde68a','#bbf7d0','#bae6fd','#ddd6fe'];
+const moodTexts=['','Zor günler de geçer. Kendine nazik ol 🌸','Yine de buradayım ☕','Orta olması da tamam. Yarın farklı olabilir.','Güzel! Bu enerjiyle neler yapabilirsin? 🌸','Harika! En güzel mood! ✨'];
+function setMood(val,btn){
+  const today=now.toDateString();const ex=S.mood.find(m=>m.date===today);
+  if(ex)ex.val=val;else S.mood.push({date:today,val});
+  S.mood=S.mood.slice(-14);sv('mood',S.mood);
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');
+  $('moodMsg').textContent=moodTexts[val];updateStats();renderMoodChart();
+}
+function renderMoodChart(){
+  const el=$('moodChart');if(!el)return;
+  const days=['Pt','Sa','Ça','Pe','Cu','Ct','Pz'];const last7=[];
+  for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);const ds=d.toDateString(),f=S.mood.find(m=>m.date===ds);const dow=d.getDay();last7.push({day:days[dow===0?6:dow-1],val:f?f.val:0});}
+  el.innerHTML=last7.map(d=>`<div class="mbar-w"><div class="mbar" style="height:${d.val?d.val/5*64:4}px;background:${d.val?moodColors[d.val]:'var(--lavl)'}"></div><div class="mday">${d.day}</div></div>`).join('');
+  const today=S.mood.find(m=>m.date===now.toDateString());
+  if(today){document.querySelectorAll('.mood-btn')[today.val-1]?.classList.add('sel');$('moodMsg').textContent=moodTexts[today.val];}
+}
+renderMoodChart();
+
+// ═══ POMODORO ═══
+const pomoModes={work:25,short:5,long:15};
+let pomoMode='work',pomoRunning=false,pomoInterval=null,pomoLeft=25*60;
+const circ=2*Math.PI*74;$('pomoCircle').style.strokeDasharray=circ;
+function setPomoMode(m,btn){if(pomoRunning)return;pomoMode=m;pomoLeft=pomoModes[m]*60;document.querySelectorAll('.pmb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');$('pomoLbl').textContent=m==='work'?'Çalışma zamanı 🌸':m==='short'?'Kısa mola ♡':'Uzun mola ☕';updatePomoDisplay();}
+function updatePomoDisplay(){const m=Math.floor(pomoLeft/60),s=pomoLeft%60;$('pomoTime').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;$('pomoCircle').style.strokeDashoffset=circ*(pomoLeft/pomoModes[pomoMode]/60);}
+function togglePomo(){
+  if(pomoRunning){clearInterval(pomoInterval);pomoRunning=false;$('pomoBtnTxt').textContent='▶ Devam Et';}
+  else{pomoRunning=true;$('pomoBtnTxt').textContent='⏸ Duraklat';
+    pomoInterval=setInterval(()=>{pomoLeft--;updatePomoDisplay();
+      if(pomoLeft<=0){clearInterval(pomoInterval);pomoRunning=false;$('pomoBtnTxt').textContent='▶ Başlat';
+        if(pomoMode==='work'){const td=now.toDateString();if(S.pomoCount.date===td)S.pomoCount.count++;else S.pomoCount={date:td,count:1};sv('pomoCount',S.pomoCount);const total=parseInt(lss('pomoTotal','0'))+1;svs('pomoTotal',total);updatePomoStats();updateStats();if(Notification.permission==='granted')new Notification('🌸 Pomodoro bitti!',{body:'Harika iş Ayşenaz! Kısa bir mola hak ettin ♡'});}
+        else{if(Notification.permission==='granted')new Notification('♡ Mola bitti!',{body:'Çalışmaya dönme zamanı!'});}
+        pomoLeft=pomoModes[pomoMode]*60;updatePomoDisplay();}},1000);}
+}
+function resetPomo(){clearInterval(pomoInterval);pomoRunning=false;pomoLeft=pomoModes[pomoMode]*60;$('pomoBtnTxt').textContent='▶ Başlat';updatePomoDisplay();}
+function updatePomoStats(){const td=now.toDateString();$('pomoToday').textContent=S.pomoCount.date===td?S.pomoCount.count:0;$('pomoAll').textContent=parseInt(lss('pomoTotal','0'));}
+updatePomoDisplay();updatePomoStats();
+
+// ═══ JOURNAL ═══
+function saveJournal(){const txt=$('jText').value.trim();if(!txt)return;const ds=`${now.getDate()} ${TR_MONTHS[now.getMonth()]} ${now.getFullYear()}, ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;S.journal.unshift({id:Date.now(),date:ds,text:txt});sv('journal',S.journal);$('jText').value='';renderJournal();}
+function delJournal(id){if(!confirm('Bu yazıyı silmek istediğine emin misin?'))return;S.journal=S.journal.filter(j=>j.id!==id);sv('journal',S.journal);renderJournal();}
+function renderJournal(){const el=$('jList');if(!S.journal.length){el.innerHTML='<div class="empty"><div class="ei">✦</div>henüz yazı yok</div>';return;}el.innerHTML=S.journal.slice(0,20).map(j=>`<div class="jentry" style="position:relative"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px"><div class="jentry-d">${j.date}</div><button onclick="delJournal(${j.id})" style="background:none;border:none;color:var(--tx4);cursor:pointer;font-size:15px;padding:2px 6px;line-height:1" title="sil">×</button></div><div class="jentry-t">${j.text.length>200?j.text.slice(0,200)+'...':j.text}</div></div>`).join('');}
+renderJournal();
+
+// ═══ TEMA ═══
+const THEMES={
+  lavender:{name:'Lavanta 💜',bg:'#f8f4ff',lav:'#c4b5fd',lavl:'#ede9fe',lavd:'#7c3aed',pink:'#f9a8d4',pinkl:'#fce7f3',pinkd:'#be185d',mint:'#6ee7b7',mintl:'#d1fae5',mintd:'#065f46',sky:'#93c5fd',skyl:'#dbeafe',skyd:'1d4ed8',peach:'#fdba74',peachl:'#ffedd5',sage:'#86efac',sagel:'#dcfce7',tx:'#1e1b4b',tx2:'#4c1d95',tx3:'#7c3aed',tx4:'#a78bfa',border:'rgba(167,139,250,0.2)',border2:'rgba(167,139,250,0.35)'},
+  blossom:{name:'Blossom 🌸',bg:'#fff0f6',lav:'#f9a8d4',lavl:'#fce7f3',lavd:'#be185d',pink:'#fda4af',pinkl:'#ffe4e6',pinkd:'#be123c',mint:'#6ee7b7',mintl:'#d1fae5',mintd:'#065f46',sky:'#f0abfc',skyl:'#fae8ff',skyd:'#7e22ce',peach:'#fca5a5',peachl:'#fee2e2',sage:'#86efac',sagel:'#dcfce7',tx:'#4c0519',tx2:'#9f1239',tx3:'#be185d',tx4:'#fb7185',border:'rgba(249,168,212,0.25)',border2:'rgba(249,168,212,0.45)'},
+  matcha:{name:'Matcha 🍵',bg:'#f0fdf4',lav:'#86efac',lavl:'#dcfce7',lavd:'#15803d',pink:'#6ee7b7',pinkl:'#d1fae5',pinkd:'#065f46',mint:'#a3e635',mintl:'#ecfccb',mintd:'#3f6212',sky:'#67e8f9',skyl:'#cffafe',skyd:'#155e75',peach:'#fde68a',peachl:'#fef9c3',sage:'#86efac',sagel:'#dcfce7',tx:'#052e16',tx2:'#14532d',tx3:'#15803d',tx4:'#4ade80',border:'rgba(134,239,172,0.25)',border2:'rgba(134,239,172,0.45)'},
+  sky:{name:'Gökyüzü 🌤',bg:'#f0f9ff',lav:'#93c5fd',lavl:'#dbeafe',lavd:'#1d4ed8',pink:'#7dd3fc',pinkl:'#e0f2fe',pinkd:'#0369a1',mint:'#6ee7b7',mintl:'#d1fae5',mintd:'#065f46',sky:'#818cf8',skyl:'#e0e7ff',skyd:'#3730a3',peach:'#fde68a',peachl:'#fef9c3',sage:'#86efac',sagel:'#dcfce7',tx:'#0c1445',tx2:'#1e3a8a',tx3:'#1d4ed8',tx4:'#60a5fa',border:'rgba(147,197,253,0.25)',border2:'rgba(147,197,253,0.45)'},
+  peach:{name:'Şeftali 🍑',bg:'#fff8f1',lav:'#fdba74',lavl:'#ffedd5',lavd:'#c2410c',pink:'#fca5a5',pinkl:'#fee2e2',pinkd:'#dc2626',mint:'#6ee7b7',mintl:'#d1fae5',mintd:'#065f46',sky:'#fcd34d',skyl:'#fef9c3',skyd:'#b45309',peach:'#f9a8d4',peachl:'#fce7f3',sage:'#86efac',sagel:'#dcfce7',tx:'#431407',tx2:'#9a3412',tx3:'#c2410c',tx4:'#fb923c',border:'rgba(253,186,116,0.25)',border2:'rgba(253,186,116,0.45)'},
+  midnight:{name:'Gece 🌙',bg:'#1e1b2e',lav:'#a78bfa',lavl:'#2d2a4a',lavd:'#c4b5fd',pink:'#f472b6',pinkl:'#3d1a2e',pinkd:'#f9a8d4',mint:'#34d399',mintl:'#1a2e28',mintd:'#6ee7b7',sky:'#60a5fa',skyl:'#1a2740',skyd:'#93c5fd',peach:'#fbbf24',peachl:'#2e2310',sage:'#4ade80',sagel:'#1a2e20',tx:'#f0e8ff',tx2:'#c4b5fd',tx3:'#a78bfa',tx4:'#7c3aed',border:'rgba(167,139,250,0.15)',border2:'rgba(167,139,250,0.3)'},
+};
+let curTheme=lss('theme','lavender');
+
+function applyTheme(key){
+  const t=THEMES[key]||THEMES.lavender;
+  const r=document.documentElement;
+  r.style.setProperty('--bg',t.bg);r.style.setProperty('--lav',t.lav);r.style.setProperty('--lavl',t.lavl);r.style.setProperty('--lavd',t.lavd);
+  r.style.setProperty('--pink',t.pink);r.style.setProperty('--pinkl',t.pinkl);r.style.setProperty('--pinkd',t.pinkd);
+  r.style.setProperty('--mint',t.mint);r.style.setProperty('--mintl',t.mintl);r.style.setProperty('--mintd',t.mintd);
+  r.style.setProperty('--sky',t.sky);r.style.setProperty('--skyl',t.skyl);r.style.setProperty('--peach',t.peach);r.style.setProperty('--peachl',t.peachl);
+  r.style.setProperty('--sage',t.sage);r.style.setProperty('--sagel',t.sagel);
+  r.style.setProperty('--tx',t.tx);r.style.setProperty('--tx2',t.tx2);r.style.setProperty('--tx3',t.tx3);r.style.setProperty('--tx4',t.tx4);
+  r.style.setProperty('--border',t.border);r.style.setProperty('--border2',t.border2);
+  // card bg
+  r.style.setProperty('--card',key==='midnight'?'#2a273f':'#ffffff');
+  r.style.setProperty('--card2',key==='midnight'?'#231f38':'#fdf9ff');
+  curTheme=key;svs('theme',key);
+  renderThemeGrid();
+}
+
+function renderThemeGrid(){
+  const el=$('themeGrid');if(!el)return;
+  el.innerHTML=Object.entries(THEMES).map(([k,t])=>`
+    <div onclick="applyTheme('${k}')" class="theme-btn ${k===curTheme?'active':''}" style="background:${t.bg}">
+      <div class="theme-swatch">
+        <div style="background:${t.lavl}"></div>
+        <div style="background:${t.pinkl}"></div>
+        <div style="background:${t.mintl}"></div>
+      </div>
+      <div class="theme-name" style="color:${t.tx3}">${t.name}</div>
+      ${k===curTheme?`<div class="theme-check">✓ aktif</div>`:''}
+    </div>`).join('');
+}
+
+// Font size
+const fsSizes=['12px','14px','16px'];
+const fsLabels=['A Küçük','A Normal','A Büyük'];
+let curFS=parseInt(lss('fsIdx','1'));
+function applyFS(idx){
+  document.documentElement.style.fontSize=fsSizes[idx];
+  curFS=idx;svs('fsIdx',idx);
+  document.querySelectorAll('.fs-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+}
+function setFS(idx){applyFS(idx);}
+
+// Splash icons
+// SVG Animal icons
+const SVG_ICONS = {
+  bunny: {label:'Tavşan', svg:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- ears -->
+    <ellipse cx="28" cy="22" rx="7" ry="16" fill="#f0ede8" stroke="#e0d4c8" stroke-width="1.2"/>
+    <ellipse cx="28" cy="22" rx="4" ry="12" fill="#f4c8c8" opacity=".7"/>
+    <ellipse cx="52" cy="22" rx="7" ry="16" fill="#f0ede8" stroke="#e0d4c8" stroke-width="1.2"/>
+    <ellipse cx="52" cy="22" rx="4" ry="12" fill="#f4c8c8" opacity=".7"/>
+    <!-- headphones -->
+    <path d="M18 30 Q40 18 62 30" stroke="#a8b8d0" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <rect x="12" y="28" width="10" height="12" rx="5" fill="#b8c8e0"/>
+    <rect x="58" y="28" width="10" height="12" rx="5" fill="#b8c8e0"/>
+    <!-- body -->
+    <ellipse cx="40" cy="58" rx="22" ry="18" fill="#f0ede8"/>
+    <!-- head -->
+    <circle cx="40" cy="40" r="18" fill="#f5f2ee"/>
+    <!-- eyes closed happy -->
+    <path d="M33 40 Q35 37 37 40" stroke="#8a7060" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M43 40 Q45 37 47 40" stroke="#8a7060" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- blush -->
+    <ellipse cx="32" cy="44" rx="5" ry="3" fill="#f4a0a0" opacity=".5"/>
+    <ellipse cx="48" cy="44" rx="5" ry="3" fill="#f4a0a0" opacity=".5"/>
+    <!-- nose -->
+    <ellipse cx="40" cy="47" rx="3" ry="2" fill="#e8a0a0"/>
+    <!-- scarf -->
+    <ellipse cx="40" cy="57" rx="18" ry="6" fill="#b8c8e0" opacity=".9"/>
+    <rect x="22" y="55" width="36" height="5" fill="#b8c8e0"/>
+  </svg>`},
+  sheep: {label:'Koyun', svg:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- fluffy body clouds -->
+    <circle cx="30" cy="52" r="12" fill="#f5f2ee"/>
+    <circle cx="50" cy="52" r="12" fill="#f5f2ee"/>
+    <circle cx="40" cy="48" r="13" fill="#f5f2ee"/>
+    <circle cx="26" cy="58" r="10" fill="#f0ede8"/>
+    <circle cx="54" cy="58" r="10" fill="#f0ede8"/>
+    <!-- headphones -->
+    <path d="M24 34 Q40 24 56 34" stroke="#c8a880" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <rect x="18" y="32" width="10" height="12" rx="5" fill="#d4b890"/>
+    <rect x="52" y="32" width="10" height="12" rx="5" fill="#d4b890"/>
+    <!-- head -->
+    <circle cx="40" cy="36" r="16" fill="#f5f2ee"/>
+    <!-- fluffy head top -->
+    <circle cx="32" cy="26" r="8" fill="#f0ede8"/>
+    <circle cx="40" cy="23" r="8" fill="#f0ede8"/>
+    <circle cx="48" cy="26" r="8" fill="#f0ede8"/>
+    <!-- eyes closed -->
+    <path d="M33 37 Q35 34 37 37" stroke="#8a7060" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M43 37 Q45 34 47 37" stroke="#8a7060" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- blush -->
+    <ellipse cx="32" cy="41" rx="5" ry="3" fill="#f4a0a0" opacity=".5"/>
+    <ellipse cx="48" cy="41" rx="5" ry="3" fill="#f4a0a0" opacity=".5"/>
+    <!-- nose -->
+    <ellipse cx="40" cy="43" rx="3" ry="2" fill="#c89080"/>
+    <!-- music notes -->
+    <text x="58" y="25" font-size="8" fill="#c8a880">♪</text>
+    <text x="14" y="22" font-size="6" fill="#c8a880">♫</text>
+  </svg>`},
+  fox: {label:'Tilki', svg:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- ears -->
+    <polygon points="22,30 16,12 32,22" fill="#e8804a"/>
+    <polygon points="22,30 19,16 30,24" fill="#f4c0a0"/>
+    <polygon points="58,30 64,12 48,22" fill="#e8804a"/>
+    <polygon points="58,30 61,16 50,24" fill="#f4c0a0"/>
+    <!-- body -->
+    <ellipse cx="40" cy="60" rx="20" ry="15" fill="#e8904a"/>
+    <!-- tail -->
+    <ellipse cx="18" cy="64" rx="10" ry="7" fill="#e8904a" transform="rotate(-20,18,64)"/>
+    <ellipse cx="14" cy="62" rx="5" ry="4" fill="#f5f2ee" transform="rotate(-20,14,62)"/>
+    <!-- headphones -->
+    <path d="M22 36 Q40 26 58 36" stroke="#7090b8" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <rect x="16" y="34" width="10" height="12" rx="5" fill="#8090c0"/>
+    <rect x="54" y="34" width="10" height="12" rx="5" fill="#8090c0"/>
+    <!-- head -->
+    <circle cx="40" cy="40" r="18" fill="#e8904a"/>
+    <!-- face white -->
+    <ellipse cx="40" cy="44" rx="10" ry="8" fill="#f5f0e8"/>
+    <!-- eyes -->
+    <path d="M33 38 Q35 35 37 38" stroke="#4a3020" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M43 38 Q45 35 47 38" stroke="#4a3020" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- blush -->
+    <ellipse cx="31" cy="42" rx="5" ry="3" fill="#f48060" opacity=".5"/>
+    <ellipse cx="49" cy="42" rx="5" ry="3" fill="#f48060" opacity=".5"/>
+    <!-- nose -->
+    <ellipse cx="40" cy="46" rx="3" ry="2" fill="#3a2010"/>
+    <!-- scarf -->
+    <ellipse cx="40" cy="58" rx="16" ry="5" fill="#8090c0" opacity=".85"/>
+  </svg>`},
+  dog: {label:'Köpek', svg:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- ears floppy -->
+    <ellipse cx="24" cy="36" rx="10" ry="14" fill="#c8a070" transform="rotate(-10,24,36)"/>
+    <ellipse cx="56" cy="36" rx="10" ry="14" fill="#c8a070" transform="rotate(10,56,36)"/>
+    <!-- body -->
+    <ellipse cx="40" cy="60" rx="20" ry="15" fill="#d4b080"/>
+    <!-- headphones -->
+    <path d="M22 30 Q40 20 58 30" stroke="#a08060" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <rect x="16" y="28" width="10" height="12" rx="5" fill="#b09070"/>
+    <rect x="54" y="28" width="10" height="12" rx="5" fill="#b09070"/>
+    <!-- head -->
+    <circle cx="40" cy="38" r="19" fill="#d4b080"/>
+    <!-- eyes closed happy -->
+    <path d="M32 37 Q34 34 36 37" stroke="#4a3020" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M44 37 Q46 34 48 37" stroke="#4a3020" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <!-- blush -->
+    <ellipse cx="31" cy="42" rx="6" ry="3.5" fill="#f4a080" opacity=".5"/>
+    <ellipse cx="49" cy="42" rx="6" ry="3.5" fill="#f4a080" opacity=".5"/>
+    <!-- snout -->
+    <ellipse cx="40" cy="45" rx="7" ry="5" fill="#c09060"/>
+    <ellipse cx="40" cy="44" rx="3.5" ry="2.5" fill="#3a2010"/>
+    <!-- winter scarf -->
+    <rect x="23" y="55" width="34" height="7" rx="3.5" fill="#c8a0b0"/>
+    <line x1="23" y1="58" x2="57" y2="58" stroke="#b08090" stroke-width="1" opacity=".5"/>
+  </svg>`},
+  koala: {label:'Koala', svg:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- ears big round -->
+    <circle cx="20" cy="28" r="14" fill="#9090a0"/>
+    <circle cx="20" cy="28" r="9" fill="#b8b8c8"/>
+    <circle cx="60" cy="28" r="14" fill="#9090a0"/>
+    <circle cx="60" cy="28" r="9" fill="#b8b8c8"/>
+    <!-- headphones -->
+    <path d="M20 30 Q40 18 60 30" stroke="#7080a0" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <rect x="14" y="28" width="10" height="12" rx="5" fill="#8090b0"/>
+    <rect x="56" y="28" width="10" height="12" rx="5" fill="#8090b0"/>
+    <!-- body -->
+    <ellipse cx="40" cy="60" rx="20" ry="16" fill="#a0a0b0"/>
+    <!-- head -->
+    <circle cx="40" cy="40" r="19" fill="#b0b0c0"/>
+    <!-- nose big -->
+    <ellipse cx="40" cy="45" rx="7" ry="5" fill="#3a3a50"/>
+    <!-- eyes -->
+    <path d="M31 37 Q33 34 35 37" stroke="#3a3a50" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M45 37 Q47 34 49 37" stroke="#3a3a50" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <!-- blush -->
+    <ellipse cx="30" cy="42" rx="5" ry="3" fill="#f4a0c0" opacity=".5"/>
+    <ellipse cx="50" cy="42" rx="5" ry="3" fill="#f4a0c0" opacity=".5"/>
+  </svg>`},
+  penguin: {label:'Penguen', svg:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- body -->
+    <ellipse cx="40" cy="58" rx="18" ry="20" fill="#3a3a50"/>
+    <!-- belly -->
+    <ellipse cx="40" cy="60" rx="11" ry="14" fill="#f5f2ee"/>
+    <!-- head -->
+    <circle cx="40" cy="36" r="18" fill="#3a3a50"/>
+    <!-- face white -->
+    <ellipse cx="40" cy="40" rx="11" ry="10" fill="#f5f2ee"/>
+    <!-- headphones - orange -->
+    <path d="M24 30 Q40 18 56 30" stroke="#f09030" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <rect x="18" y="28" width="10" height="13" rx="5" fill="#f0a040"/>
+    <rect x="52" y="28" width="10" height="13" rx="5" fill="#f0a040"/>
+    <!-- eyes closed -->
+    <path d="M33 37 Q35 34 37 37" stroke="#3a3a50" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M43 37 Q45 34 47 37" stroke="#3a3a50" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <!-- beak -->
+    <ellipse cx="40" cy="44" rx="4" ry="2.5" fill="#f09030"/>
+    <!-- blush -->
+    <ellipse cx="31" cy="42" rx="4" ry="2.5" fill="#f4a0c0" opacity=".6"/>
+    <ellipse cx="49" cy="42" rx="4" ry="2.5" fill="#f4a0c0" opacity=".6"/>
+    <!-- wings -->
+    <ellipse cx="23" cy="58" rx="7" ry="12" fill="#3a3a50" transform="rotate(-15,23,58)"/>
+    <ellipse cx="57" cy="58" rx="7" ry="12" fill="#3a3a50" transform="rotate(15,57,58)"/>
+    <!-- scarf pink -->
+    <rect x="24" y="50" width="32" height="7" rx="3.5" fill="#f4a0c0"/>
+  </svg>`},
+  chick: {label:'Civciv', svg:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- body fluffy -->
+    <circle cx="40" cy="58" r="18" fill="#f8d84a"/>
+    <circle cx="28" cy="60" r="10" fill="#f8d84a"/>
+    <circle cx="52" cy="60" r="10" fill="#f8d84a"/>
+    <!-- wings -->
+    <ellipse cx="22" cy="56" rx="9" ry="6" fill="#f0c830" transform="rotate(-20,22,56)"/>
+    <ellipse cx="58" cy="56" rx="9" ry="6" fill="#f0c830" transform="rotate(20,58,56)"/>
+    <!-- headphones -->
+    <path d="M24 32 Q40 20 56 32" stroke="#8090c0" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <rect x="18" y="30" width="10" height="12" rx="5" fill="#9090c8"/>
+    <rect x="52" y="30" width="10" height="12" rx="5" fill="#9090c8"/>
+    <!-- head -->
+    <circle cx="40" cy="36" r="18" fill="#f8d84a"/>
+    <!-- tuft -->
+    <ellipse cx="40" cy="19" rx="5" ry="7" fill="#f8d84a"/>
+    <ellipse cx="34" cy="21" rx="4" ry="5" fill="#f8d84a"/>
+    <ellipse cx="46" cy="21" rx="4" ry="5" fill="#f8d84a"/>
+    <!-- eyes closed -->
+    <path d="M32 36 Q34 33 36 36" stroke="#4a3820" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M44 36 Q46 33 48 36" stroke="#4a3820" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <!-- beak -->
+    <polygon points="37,41 43,41 40,46" fill="#f09830"/>
+    <!-- blush -->
+    <ellipse cx="30" cy="40" rx="5" ry="3" fill="#f4a080" opacity=".5"/>
+    <ellipse cx="50" cy="40" rx="5" ry="3" fill="#f4a080" opacity=".5"/>
+  </svg>`},
+  cat: {label:'Kedi', svg:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- ears pointy -->
+    <polygon points="23,32 16,14 34,26" fill="#e8c8c0"/>
+    <polygon points="23,32 20,18 32,27" fill="#f4d4d0"/>
+    <polygon points="57,32 64,14 46,26" fill="#e8c8c0"/>
+    <polygon points="57,32 60,18 48,27" fill="#f4d4d0"/>
+    <!-- body -->
+    <ellipse cx="40" cy="60" rx="20" ry="16" fill="#f0e8e0"/>
+    <!-- tail -->
+    <path d="M58 68 Q72 58 68 44" stroke="#e0c8b8" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- headphones -->
+    <path d="M22 32 Q40 22 58 32" stroke="#b0a0c0" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <rect x="16" y="30" width="10" height="12" rx="5" fill="#c0b0d0"/>
+    <rect x="54" y="30" width="10" height="12" rx="5" fill="#c0b0d0"/>
+    <!-- head -->
+    <circle cx="40" cy="40" r="19" fill="#f0e8e0"/>
+    <!-- eyes closed happy -->
+    <path d="M31 39 Q33 36 35 39" stroke="#4a3830" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M45 39 Q47 36 49 39" stroke="#4a3830" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <!-- blush -->
+    <ellipse cx="30" cy="44" rx="6" ry="3" fill="#f4a0b0" opacity=".55"/>
+    <ellipse cx="50" cy="44" rx="6" ry="3" fill="#f4a0b0" opacity=".55"/>
+    <!-- nose -->
+    <polygon points="38,47 42,47 40,50" fill="#e890a0"/>
+    <!-- whiskers -->
+    <line x1="20" y1="46" x2="34" y2="48" stroke="#8a7860" stroke-width="1" opacity=".6"/>
+    <line x1="20" y1="50" x2="34" y2="50" stroke="#8a7860" stroke-width="1" opacity=".6"/>
+    <line x1="46" y1="48" x2="60" y2="46" stroke="#8a7860" stroke-width="1" opacity=".6"/>
+    <line x1="46" y1="50" x2="60" y2="50" stroke="#8a7860" stroke-width="1" opacity=".6"/>
+  </svg>`},
+  lion: {label:'Aslan', svg:`<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- mane -->
+    <circle cx="40" cy="40" r="26" fill="#e8a840"/>
+    <circle cx="40" cy="40" r="22" fill="#f0b850"/>
+    <!-- headphones over mane -->
+    <path d="M20 34 Q40 20 60 34" stroke="#7080a0" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <rect x="14" y="32" width="10" height="13" rx="5" fill="#8090b0"/>
+    <rect x="56" y="32" width="10" height="13" rx="5" fill="#8090b0"/>
+    <!-- head -->
+    <circle cx="40" cy="40" r="18" fill="#f8d070"/>
+    <!-- ears -->
+    <circle cx="22" cy="26" r="6" fill="#e8a840"/>
+    <circle cx="58" cy="26" r="6" fill="#e8a840"/>
+    <!-- eyes closed -->
+    <path d="M31 38 Q33 35 35 38" stroke="#4a3020" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M45 38 Q47 35 49 38" stroke="#4a3020" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <!-- blush -->
+    <ellipse cx="30" cy="43" rx="6" ry="3" fill="#f4a060" opacity=".5"/>
+    <ellipse cx="50" cy="43" rx="6" ry="3" fill="#f4a060" opacity=".5"/>
+    <!-- snout -->
+    <ellipse cx="40" cy="46" rx="8" ry="6" fill="#f0c060"/>
+    <ellipse cx="40" cy="45" rx="4" ry="2.5" fill="#3a2010"/>
+    <!-- body -->
+    <ellipse cx="40" cy="64" rx="16" ry="12" fill="#f0b850"/>
+  </svg>`},
+};
+
+function renderIconGrid(){
+  const el=$('iconGrid');if(!el)return;
+  const cur=lss('splashIcon','bunny');
+  el.innerHTML=Object.entries(SVG_ICONS).map(([k,ic])=>`
+    <div onclick="setSplashIconSVG('${k}')" style="text-align:center;padding:8px 6px;border-radius:16px;cursor:pointer;
+      background:${k===cur?'var(--lavl)':'var(--card2)'};
+      border:2.5px solid ${k===cur?'var(--lavd)':'var(--border)'};
+      transition:all .2s;box-shadow:${k===cur?'0 3px 12px rgba(124,58,237,0.2)':'none'}">
+      <div style="width:60px;height:60px;margin:0 auto">${ic.svg}</div>
+      <div style="font-size:10px;color:var(--tx4);font-weight:800;margin-top:4px">${ic.label}</div>
+      ${k===cur?'<div style="font-size:9px;color:var(--lavd);margin-top:1px">✓ seçili</div>':''}
+    </div>`).join('');
+}
+function handleCustomIcon(){
+  const file=document.getElementById('customIconFile').files[0];if(!file)return;
+  if(file.size>1*1024*1024){alert('1MB\'dan küçük bir fotoğraf seç!');return;}
+  const r=new FileReader();r.onload=e=>{
+    const data=e.target.result;
+    svs('customSplashImg',data);
+    // Set as splash - use img element
+    const sp=document.querySelector('.sp-flower');
+    sp.style.cssText='font-size:0;width:80px;height:80px;border-radius:50%;object-fit:cover;display:block;margin:0 auto';
+    sp.textContent='';
+    const img=document.createElement('img');img.src=data;img.style.cssText='width:80px;height:80px;border-radius:50%;object-fit:cover;display:block;margin:0 auto;animation:bloom 2s ease-in-out infinite';
+    sp.parentNode.insertBefore(img,sp);sp.style.display='none';
+    svs('splashIcon','__custom__');
+    alert('Fotoğraf ayarlandı! 🌸');
+  };r.readAsDataURL(file);
+}
+function setSplashIcon(ic){svs('splashIcon',ic);renderIconGrid();}
+function setSplashIconSVG(key){
+  svs('splashIcon',key);svs('customSplashImg','');
+  const sp=document.querySelector('.sp-flower');
+  // Remove any custom img
+  const oldImg=document.querySelector('.sp-custom-img');if(oldImg)oldImg.remove();
+  sp.style.display='';
+  // Show SVG
+  const ic=SVG_ICONS[key];
+  if(ic){sp.style.cssText='font-size:0;display:block;width:80px;height:80px;margin:0 auto;animation:bloom 2s ease-in-out infinite';sp.innerHTML=ic.svg;}
+  renderIconGrid();
+}
+
+// Init all
+setTimeout(()=>{renderThemeGrid();renderIconGrid();},200);
+
+// ═══ BİLDİRİM ═══
+function requestNotif(){if(!('Notification'in window)){alert('Tarayıcın bildirimleri desteklemiyor.');return;}Notification.requestPermission().then(p=>{if(p==='granted'){alert('Bildirimler açıldı! Her sabah saat 9\'da seni hatırlatacağım 🌸');scheduleNotif();}});}
+function scheduleNotif(){const next=new Date();next.setHours(9,0,0,0);if(next<=new Date())next.setDate(next.getDate()+1);setTimeout(()=>{if(Notification.permission==='granted'){new Notification('🌸 Günaydın Ayşenaz!',{body:`Bugün ${TR_DAYS[new Date().getDay()]}. Güzel bir gün seni bekliyor ♡`});}scheduleNotif();},next-new Date());}
+if(Notification.permission==='granted')scheduleNotif();
+
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>
